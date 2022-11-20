@@ -36,6 +36,7 @@ struct Course
         courseNum = newCourseNum;
         courseName = newCourseName;
 		prof = newProf;
+		// for doubly linked list
 		next = NULL;
 		previous = NULL;
     }

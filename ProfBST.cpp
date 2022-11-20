@@ -10,32 +10,37 @@
 
 using namespace std;
 
-ProfBST::ProfBST()
-{
+ProfBST::ProfBST() { root = NULL; }
+
+void destroyNode(Professor *currNode) {
+  if (currNode != NULL) {
+    destroyNode(currNode->left);
+    destroyNode(currNode->right);
+
+    delete currNode;
+    currNode = NULL;
+  }
+}
+
+ProfBST::~ProfBST() { destroyNode(root); }
+
+void ProfBST::addProfessor(string profId, string profName) {
+
+
+
+
+
 
 }
 
-ProfBST::~ProfBST()
-{
+Professor *ProfBST::searchProfessor(string profId) {
+// hash id, find location, and search within chain
+
+
+
 
 }
 
-void ProfBST::addProfessor(string profId, string profName)
-{
+void ProfBST::publicSearchProfessor(string profId) {}
 
-}
-
-Professor* ProfBST::searchProfessor(string profId)
-{
-
-}
-
-void ProfBST::publicSearchProfessor(string profId)
-{
-
-}
-
-void ProfBST::displayProfessorInfo(Professor* p)
-{
-
-}
+void ProfBST::displayProfessorInfo(Professor *p) {}
