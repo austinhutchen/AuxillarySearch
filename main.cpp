@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
   string profID;
   HashOpenAddressing *openaddtable = new HashOpenAddressing(hsize);
   HashChaining *lltable = new HashChaining(hsize);
-  ProfBST *root= new ProfBST();
+  ProfBST *tree= new ProfBST();
   // begin loop
   while (true) {
     display();
@@ -51,6 +51,7 @@ int main(int argc, char *argv[]) {
     case 1: {
       cout << "Which hash table would you like to populate? (O=Open Addressing, C=Chaining)?"<< endl;
       cin >> choice;
+      // add professor to BST in both?
       // if user uses quadratic open addressing
       if (choice == "O" || choice == "o")
         openaddtable->bulkInsert(fname);
@@ -83,6 +84,7 @@ int main(int argc, char *argv[]) {
       cout << "--------THIS CASE IS NOT DONE YET, PROCEED CAREFULLY WITH DEBUGGER ---------" << endl;
       cout << "Enter a Professor's ID (e.g. nscollan0):" << endl;
       cin >> profID;
+      tree->searchProfessor(profID);
       // profBST->searchprofessor
       break;
     }
@@ -102,7 +104,7 @@ int main(int argc, char *argv[]) {
     case 5: {
       openaddtable->~HashOpenAddressing();
       lltable->~HashChaining();
-      root->~ProfBST();
+      tree->~ProfBST();
       cout << "Goodbye!" << endl;
       return 0;
     }

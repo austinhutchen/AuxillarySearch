@@ -80,6 +80,7 @@ root.addProfessor(profid, firstname);
 */
 Course *course=new Course(stoi(year),department,stoi(courseno),coursename,prof);
 prof->coursesTaught.push_back(course);
+
 //Course(int newYear, string newDepartment, int newCourseNum, string newCourseName, Professor *newProf = nullptr)
 if(hashTable[index]==NULL){
 // course doesnt exist, add new instance
