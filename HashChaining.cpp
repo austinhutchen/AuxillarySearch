@@ -45,6 +45,7 @@ ifstream fin;
 string line;
 int index;
 string courseno;
+int collisions=0;
 string coursename;
 string year;
 string department;
@@ -87,6 +88,7 @@ if(hashTable[index]==NULL){
 hashTable[index]= course;
 }
 else{
+collisions++;
 // this will change for open addressing
 Course *curr = hashTable[index];
 curr->previous=course;
