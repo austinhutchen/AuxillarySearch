@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------------
 
 #include "HashChaining.h"
+#include "ProfBST.h"
 #include "util.h"
 
 using namespace std;
@@ -50,6 +51,7 @@ string department;
 string profid;
 string firstname;
 string lastname;
+string fullname;
 fin.open(filename);
 // filename is wrong
 if(!fin.is_open()){
@@ -69,10 +71,13 @@ getline(parse,firstname,',');
 getline(parse,lastname,'\n');
 // variables stored
 index=hash(stoi(courseno));
-Professor *prof;
-prof->profId=profid;
-prof->profName=firstname;
-// create course instance for hash table
+fullname=firstname+" " +lastname;
+Professor *prof= new Professor(profid,fullname);
+// add professor to BST here probably
+/*
+ProfBST root;
+root.addProfessor(profid, firstname);
+*/
 Course *course=new Course(stoi(year),department,stoi(courseno),coursename,prof);
 prof->coursesTaught.push_back(course);
 //Course(int newYear, string newDepartment, int newCourseNum, string newCourseName, Professor *newProf = nullptr)
@@ -81,12 +86,11 @@ if(hashTable[index]==NULL){
 hashTable[index]= course;
 }
 else{
-// something already exists at index, add to end of doubly linked list
 // this will change for open addressing
 Course *curr = hashTable[index];
 curr->previous=course;
 course->next=curr;
-// insertion of course instance at head of ll successful
+hashTable[index]=course;
 }
 }
 }
@@ -94,24 +98,40 @@ course->next=curr;
 
 void HashChaining::search(int courseYear, int courseNumber, string profId)
 {
+    /*[OPEN ADDRESSING] Search for a course -------------------------------------
+Search operations using open addressing: 2
+2021 COMP SCI I: PROGRAMMING 1300 Rene Fauning
+[CHAINING] Search for a course -------------------------------------
+Search operations using chaining: 1
+2021 COMP SCI I: PROGRAMMING 1300 Rene Fauning
+*/
   // Compute the index by using the hash function
   int index = hash(courseNumber);
+  cout << "[CHAINING] Search for a course" <<endl;
+  cout<<"-------------------------------------" << endl;
   Course *head = hashTable[index];
+  int count=0;
   Course* curr=head;
   while (curr != NULL) {
     if (curr->courseNum== courseNumber&&curr->prof->profId==profId&&curr->year==courseYear) {
-    displayCourseInfo(curr);
+    cout << "Search operations using chaining: " << count << endl;
+    cout << curr->courseNum << " "<<curr->courseName<<" " << curr->prof->profName << endl;
+    return;
     }
     curr = curr->next;
+    count++;
   }
+  cout << "Course not found." <<endl;
 }
 
 void HashChaining::displayAllCourses()
-{
+{ 
+int counter=1;
 Course *curr;
 for(int i=0;i<hashTableSize;i++){
     curr=hashTable[i];
     while(curr!=NULL){
+        cout << counter++<< " " ;
         displayCourseInfo(curr);
         curr=curr->next;
     }
@@ -120,8 +140,5 @@ for(int i=0;i<hashTableSize;i++){
 
 void HashChaining::displayCourseInfo(Course* c)
 {
-if(c==NULL){
-        return;
-    }
-cout << c->year << " "<< c->courseName <<" "<< c->courseNum <<" "<< c->prof->profName <<endl;
+cout << c->year << " "<< c->courseName <<" "<< c->courseNum <<" "<< c->prof->profName<<endl;
 }
