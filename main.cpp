@@ -6,6 +6,7 @@
 
 #include "HashChaining.h"
 #include "HashOpenAddressing.h"
+#include "ProfBST.h"
 #include <functional>
 #include <iostream>
 #include <sstream>
@@ -24,6 +25,8 @@ void display() {
 // DEBUG:
 // lldb ./a.out cscicoursesB.csv 700
 // type "run" after above command
+// linked list implementation done, work on quadratic resolution next
+// work on BST for professors
 int main(int argc, char *argv[]) {
   if (argc != 3) {
     cout << "Invalid number of arguments." << endl;
@@ -39,6 +42,7 @@ int main(int argc, char *argv[]) {
   string profID;
   HashOpenAddressing *openaddtable = new HashOpenAddressing(hsize);
   HashChaining *lltable = new HashChaining(hsize);
+  ProfBST *root= new ProfBST();
   // begin loop
   while (true) {
     display();
@@ -70,8 +74,6 @@ int main(int argc, char *argv[]) {
       }
       cout << "Enter a Professor's ID (e.g. llytellf):" << endl;
       cin >> profID;
-      // display number of searches required to find within lltable and
-      // openaddtable
       lltable->search(stoi(year), stoi(courseno), profID);
       openaddtable->search(stoi(year), stoi(courseno), profID);
       break;
@@ -100,6 +102,7 @@ int main(int argc, char *argv[]) {
     case 5: {
       openaddtable->~HashOpenAddressing();
       lltable->~HashChaining();
+      root->~ProfBST();
       cout << "Goodbye!" << endl;
       return 0;
     }
