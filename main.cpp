@@ -47,6 +47,10 @@ int main(int argc, char *argv[]) {
   while (true) {
     display();
     cin >> input;
+    if(!cin){
+      cout << "invalid choice. Enter a number." <<endl;
+      break;
+    }
     switch (input) {
     case 1: {
       cout << "Which hash table would you like to populate? (O=Open Addressing, C=Chaining)?"<< endl;
@@ -118,10 +122,8 @@ int main(int argc, char *argv[]) {
       cout << "Goodbye!" << endl;
       return 0;
     }
-
     default:
       cout << "invalid choice" << endl;
-      break;
     }
   }
 }
