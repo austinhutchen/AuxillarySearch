@@ -81,11 +81,11 @@ int main(int argc, char *argv[]) {
     }
 
     case 3: {
-      cout << "--------THIS CASE IS NOT DONE YET, PROCEED CAREFULLY WITH DEBUGGER ---------" << endl;
       cout << "Enter a Professor's ID (e.g. nscollan0):" << endl;
       cin >> profID;
       // / search BST here
       lltable->profDb.publicSearchProfessor(profID);
+      openaddtable->profDb.publicSearchProfessor(profID);
       break;
     }
 

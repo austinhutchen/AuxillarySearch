@@ -52,7 +52,8 @@ void HashOpenAddressing::bulkInsert(string filename) {
   string firstname;
   string lastname;
   string fullname;
-  Professor * temp;
+  Professor * prof;
+  Course *course;
   fin.open(filename);
   // filename is wrong
   if (!fin.is_open()) {
@@ -73,33 +74,25 @@ void HashOpenAddressing::bulkInsert(string filename) {
     // variables stored
     index = hash(stoi(courseno));
     fullname = firstname + " " + lastname;
-    Professor *prof = new Professor(profid, fullname);
-    Course *course = new Course(stoi(year), department, stoi(courseno), coursename, prof);
-    temp=profDb.searchProfessor(profid);
-    if(temp==NULL){
-      // prof does not exist yet
-    profDb.addProfessor(profid,  fullname);
-    prof->coursesTaught.push_back(course);
-    }
-    else{
-      // prof already exists
-      prof->coursesTaught.push_back(course);
-    }
-
+  // add professor 
+profDb.addProfessor(profid, fullname);
+prof = profDb.searchProfessor(profid);
+course=new Course(stoi(year),department,stoi(courseno),coursename,prof);
+prof->coursesTaught.push_back(course );
+//hash insertions
+index=hash(stoi(courseno));
+    int newIndex = index;
     if (hashTable[index] == NULL) {
       hashTable[index] = course;
     } else {
       // use quadratic probing to resolve collision HERE
-      // use circular array to hit all spots?
-      // check if newIndex==hashtableSize-1
-      int newIndex = (index + collisions * collisions) % this->hashTableSize;
       while(hashTable[newIndex]!=NULL){
-      collisions++;
+        // updates newindex using pass-by-reference
       findnewindex(collisions, newIndex,index, this->hashTableSize);
+      collisions++;
       }
-      if(hashTable[newIndex]==NULL){
+      //hashtable[newIndex] is now null, insert course
       hashTable[newIndex] = course;
-      }
     }
   }
 }

@@ -24,22 +24,29 @@ void destroyNode(Professor *currNode) {
 
 ProfBST::~ProfBST() { destroyNode(root); }
 
-Professor* addhelper(Professor *curr, Professor *newprof){
-if(!curr){
-  return newprof;
+Professor *createprof(string profname, string profId){
+  return new Professor(profId,profname);
 }
-if(curr->profName<newprof->profName){
-    curr->right = addhelper(curr->right,newprof);
+
+Professor* addhelper(Professor *curr, string profName, string profId){
+if(curr==NULL){
+  // insertion spot found for root
+  return createprof(profName, profId);
+}
+if(profId<curr->profId){
+    curr->left = addhelper(curr->left,profName,profId);
   } 
-if (curr->profName>newprof->profName) {
-    curr->left = addhelper(curr->left, newprof);
+else {
+    curr->right = addhelper(curr->right, profName,profId);
   }
-return curr;
+  return curr;
 }
 
 void ProfBST::addProfessor(string profId, string profName) {
-  //problem below using the root for some reason
-  root=addhelper(root, new Professor(profId,profName));
+  if(!searchProfessor(profId)){
+    // profID is working fine, but only name stored is Liz Naris
+    root=addhelper(root, profName,profId);
+  }
 }
   
 
@@ -49,17 +56,13 @@ Professor * searchhelper(Professor* current, string profId){
   return current;
 }
 if(current->profId<profId){
-    current->right = searchhelper(current->right,profId);
+    return searchhelper(current->right,profId);
   } 
-if (current->profId>profId) {
-    current->left = searchhelper(current->left, profId);
-  }
-return current;
+    return searchhelper(current->left, profId);
 }
 
 Professor *ProfBST::searchProfessor(string profId) {
-  Professor * prof = searchhelper(root, profId);
-return prof;
+return searchhelper(root, profId);
 }
 
 void ProfBST::publicSearchProfessor(string profId) {
