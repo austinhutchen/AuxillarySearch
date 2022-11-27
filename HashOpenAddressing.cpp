@@ -52,6 +52,7 @@ void HashOpenAddressing::bulkInsert(string filename) {
   string firstname;
   string lastname;
   string fullname;
+  int searches=0;
   Professor * prof;
   Course *course;
   fin.open(filename);
@@ -85,23 +86,28 @@ index=hash(stoi(courseno));
     if (hashTable[index] == NULL) {
       hashTable[index] = course;
     } else {
+      collisions++;
       // use quadratic probing to resolve collision HERE
       while(hashTable[newIndex]!=NULL){
         // updates newindex using pass-by-reference
+        searches++;
       findnewindex(collisions, newIndex,index, this->hashTableSize);
-      collisions++;
       }
       //hashtable[newIndex] is now null, insert course
       hashTable[newIndex] = course;
     }
   }
+    cout << "[CHAINING] Hash table populated" <<endl;
+  cout<<"-------------------------------------" << endl;
+  cout << "Collisions using open addressing: " <<collisions <<endl;
+  cout << "Search operations using open addressing: " <<searches <<endl;
 }
 
 void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) {
 cout << "[OPEN ADDRESSING] Search for a course" << endl;
 cout << "-------------------------------------" << endl;
   int index = hash(courseNumber);
-  int collisions=1;
+  int collisions=0;
   // use quadratic probing to search here for the course
     Course *curr = hashTable[index];
     if(curr==NULL){
@@ -109,7 +115,6 @@ cout << "-------------------------------------" << endl;
         return;
     }
     else if(curr->courseNum == courseNumber && curr->year == courseYear && curr->prof->profId == profId){
-        cout << "Search operations using open addressing:" << collisions<<endl ;
         cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << " " << curr->prof->profId<< endl;
       }
       // not the exact courde, use quadratic probing to move to next possible location and check, increment counter
@@ -124,7 +129,6 @@ cout << "-------------------------------------" << endl;
       if(curr==NULL)
       return;
       else if(curr->courseNum == courseNumber && curr->year == courseYear && curr->prof->profId == profId){
-        cout << "Search operations using open addressing:" << collisions<<endl ;
         cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName <<endl;
       }
       }

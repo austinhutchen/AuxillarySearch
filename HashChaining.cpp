@@ -53,6 +53,7 @@ string profid;
 string firstname;
 string lastname;
 string fullname;
+int searches=0;
 Professor* prof;
 Course * course;
 fin.open(filename);
@@ -87,15 +88,22 @@ hashTable[index]= course;
 }
 else{
 collisions++;
-// this will change for open addressing
 Course *curr = hashTable[index];
-curr->previous=course;
-course->next=curr;
-hashTable[index]=course;
+Course *prev;
+while(curr!=NULL){
+    searches++;
+    prev=curr;
+    curr=curr->next;
 }
-
+course->previous=prev;
+prev->next=course;
 }
 }
+  cout << "[CHAINING] Hash table populated" <<endl;
+  cout<<"-------------------------------------" << endl;
+  cout << "Collisions using chaining: " <<collisions <<endl;
+  cout << "Search operations using chaining: " <<searches <<endl;
+} 
 
 
 void HashChaining::search(int courseYear, int courseNumber, string profId)
