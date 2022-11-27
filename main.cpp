@@ -84,7 +84,11 @@ int main(int argc, char *argv[]) {
       cout << "Enter a Professor's ID (e.g. nscollan0):" << endl;
       cin >> profID;
       // / search BST here
+      cout << "[OPEN ADDRESSING] Search for a professor" <<endl;
+      cout << "----------------------------------------" <<endl;
       lltable->profDb.publicSearchProfessor(profID);
+      cout << "[CHAINING] Search for a professor" <<endl;
+      cout << "----------------------------------------" <<endl;
       openaddtable->profDb.publicSearchProfessor(profID);
       break;
     }
