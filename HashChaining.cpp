@@ -117,8 +117,6 @@ Search operations using chaining: 1
 */
   // Compute the index by using the hash function
   int index = hash(courseNumber);
-  cout << "[CHAINING] Search for a course" <<endl;
-  cout<<"-------------------------------------" << endl;
   Course *head = hashTable[index];
   int count=0;
   Course* curr=head;

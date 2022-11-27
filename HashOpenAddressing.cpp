@@ -100,23 +100,22 @@ void HashOpenAddressing::bulkInsert(string filename) {
   cout << "Collisions using open addressing: " << collisions << endl;
   cout << "Search operations using open addressing: " << searches << endl;
 }
-void displayiffound(int courseNum, int courseYear, string profId,Course *curr) {
-  if(curr==NULL){
-    return;
-  }
-  if (curr->courseNum == courseNum && curr->year == courseYear &&
-      curr->prof->profId == profId) {
+bool check(int courseNum, int courseYear, string profId,Course *curr) {
+  bool f=false;
+  if (curr->courseNum == courseNum && curr->year == courseYear &&curr->prof->profId == profId) {
+  f=true;
     cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
-  }
+    }
+    return f;
 }
 void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) {
-  cout << "[OPEN ADDRESSING] Search for a course" << endl;
-  cout << "-------------------------------------" << endl;
   int index = hash(courseNumber);
   int collisions = 0;
   // use quadratic probing to search here for the course
   Course *curr = hashTable[index];
-  displayiffound(courseNumber, courseYear, profId, curr);
+  if(check(courseNumber, courseYear, profId, curr)==true){
+    return;
+  };
   // not the exact courde, use quadratic probing to move to next possible
   // location and check, increment counter
     // implement circular array mechanism to ensure newINDEX does not fly out of
@@ -127,7 +126,9 @@ void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) 
       newIndex = (index + collisions * collisions) % this->hashTableSize;
       curr = hashTable[newIndex];
       // all indices visited, course not found
-      displayiffound(courseNumber, courseYear, profId, curr);
+      if(check(courseNumber, courseYear, profId, curr)==true){
+    return;
+    }
     }
     // curr is null, not found
     cout << "Course not found in Open Addressing." << endl;

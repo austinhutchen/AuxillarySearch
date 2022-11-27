@@ -75,7 +75,11 @@ int main(int argc, char *argv[]) {
       }
       cout << "Enter a Professor's ID (e.g. llytellf):" << endl;
       cin >> profID;
+      cout << "[CHAINING] Search for a course" <<endl;
+      cout << "----------------------------------------" <<endl;
       lltable->search(stoi(year), stoi(courseno), profID);
+      cout << "[OPEN ADDRESSING] Search for a course" <<endl;
+      cout << "----------------------------------------" <<endl;
       openaddtable->search(stoi(year), stoi(courseno), profID);
       break;
     }
