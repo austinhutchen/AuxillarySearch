@@ -24,15 +24,14 @@ void display() {
 // ./a.out cscicoursesB.csv 700
 // DEBUG:
 // lldb ./a.out cscicoursesB.csv 700
-// type "run" after above command
-// linked list implementation done, work on quadratic resolution next
-// work on BST for professors
+
 int main(int argc, char *argv[]) {
   if (argc != 3) {
     cout << "Invalid number of arguments." << endl;
     cout << "Usage: ./<a.out> <csv file> <hashTable size>" << endl;
     return -1;
   }
+  // init variables
   string fname = argv[1];
   int hsize = stoi(argv[2]);
   string choice;
@@ -40,9 +39,10 @@ int main(int argc, char *argv[]) {
   string year;
   string courseno;
   string profID;
+  // initialization of hash tables and BST
   HashOpenAddressing *openaddtable = new HashOpenAddressing(hsize);
   HashChaining *lltable = new HashChaining(hsize);
-  ProfBST *tree= new ProfBST();
+
   // begin loop
   while (true) {
     display();
@@ -84,8 +84,8 @@ int main(int argc, char *argv[]) {
       cout << "--------THIS CASE IS NOT DONE YET, PROCEED CAREFULLY WITH DEBUGGER ---------" << endl;
       cout << "Enter a Professor's ID (e.g. nscollan0):" << endl;
       cin >> profID;
-      tree->searchProfessor(profID);
-      // profBST->searchprofessor
+      // / search BST here
+      lltable->profDb.publicSearchProfessor(profID);
       break;
     }
 
@@ -102,9 +102,11 @@ int main(int argc, char *argv[]) {
     }
 
     case 5: {
+      // destructors called
       openaddtable->~HashOpenAddressing();
       lltable->~HashChaining();
-      tree->~ProfBST();
+      lltable->profDb.~ProfBST();
+      openaddtable->profDb.~ProfBST();
       cout << "Goodbye!" << endl;
       return 0;
     }

@@ -53,6 +53,8 @@ string profid;
 string firstname;
 string lastname;
 string fullname;
+Professor* prof;
+Course * course;
 fin.open(filename);
 // filename is wrong
 if(!fin.is_open()){
@@ -71,19 +73,15 @@ getline(parse,profid,',');
 getline(parse,firstname,',');
 getline(parse,lastname,'\n');
 // variables stored
-index=hash(stoi(courseno));
 fullname=firstname+" " +lastname;
-Professor *prof= new Professor(profid,fullname);
-// add professor to BST here probably
-/*
-ProfBST root;
-root.addProfessor(profid, firstname);
-*/
-Course *course=new Course(stoi(year),department,stoi(courseno),coursename,prof);
-prof->coursesTaught.push_back(course);
-
-//Course(int newYear, string newDepartment, int newCourseNum, string newCourseName, Professor *newProf = nullptr)
-if(hashTable[index]==NULL){
+// add professor has problem
+profDb.addProfessor(profid, fullname);
+prof = profDb.searchProfessor(profid);
+course=new Course(stoi(year),department,stoi(courseno),coursename,prof);
+prof->coursesTaught.push_back(course );
+//hash insertions
+index=hash(stoi(courseno));
+if(!hashTable[index]){
 // course doesnt exist, add new instance
 hashTable[index]= course;
 }
@@ -95,6 +93,7 @@ curr->previous=course;
 course->next=curr;
 hashTable[index]=course;
 }
+
 }
 }
 
@@ -124,7 +123,7 @@ Search operations using chaining: 1
     curr = curr->next;
     count++;
   }
-  cout << "Course not found." <<endl;
+  cout << "Course not found in Chaining table." <<endl;
 }
 
 void HashChaining::displayAllCourses()
