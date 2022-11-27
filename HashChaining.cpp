@@ -24,7 +24,7 @@ HashChaining::~HashChaining()
  Course *course=NULL;
  for (int i = 0; i < hashTableSize; i++) {
         curr = hashTable[i];            
-        while (curr != nullptr) {
+        while (curr != NULL) {
             course=curr;
             delete course;     
             curr = curr->next;     

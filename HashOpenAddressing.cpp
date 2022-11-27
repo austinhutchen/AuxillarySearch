@@ -8,6 +8,7 @@
 #include "HashChaining.h"
 #include "ProfBST.h"
 #include "util.h"
+#include <cstddef>
 
 using namespace std;
 
@@ -20,29 +21,23 @@ HashOpenAddressing::HashOpenAddressing(int size) {
 
 HashOpenAddressing::~HashOpenAddressing() {
   Course *curr = NULL;
-  Course *course = NULL;
   for (int i = 0; i < hashTableSize; i++) {
     curr = hashTable[i];
-    while (curr != nullptr) {
-      course = curr;
-      delete course;
-      curr = curr->next;
-    }
+    delete curr;
   }
+  curr=nullptr;
   delete[] hashTable;
 }
 
 int HashOpenAddressing::hash(int courseNumber) {
   return courseNumber % this->hashTableSize;
 }
-void findnewindex(int count, int &newindex,int start,int hsize){
-newindex = (start + count * count) % hsize;
-}
+
 void HashOpenAddressing::bulkInsert(string filename) {
   ProfBST root;
   ifstream fin;
   string line;
-  int index;
+  int startindex;
   int collisions = 0;
   string courseno;
   string coursename;
@@ -52,8 +47,9 @@ void HashOpenAddressing::bulkInsert(string filename) {
   string firstname;
   string lastname;
   string fullname;
-  int searches=0;
-  Professor * prof;
+  int searches = 0;
+  Course *curr;
+  Professor *prof;
   Course *course;
   fin.open(filename);
   // filename is wrong
@@ -73,68 +69,69 @@ void HashOpenAddressing::bulkInsert(string filename) {
     getline(parse, firstname, ',');
     getline(parse, lastname, '\n');
     // variables stored
-    index = hash(stoi(courseno));
     fullname = firstname + " " + lastname;
-  // add professor 
-profDb.addProfessor(profid, fullname);
-prof = profDb.searchProfessor(profid);
-course=new Course(stoi(year),department,stoi(courseno),coursename,prof);
-prof->coursesTaught.push_back(course );
-//hash insertions
-index=hash(stoi(courseno));
-    int newIndex = index;
-    if (hashTable[index] == NULL) {
-      hashTable[index] = course;
+    // add professor
+    profDb.addProfessor(profid, fullname);
+    prof = profDb.searchProfessor(profid);
+    course =new Course(stoi(year), department, stoi(courseno), coursename, prof);
+    prof->coursesTaught.push_back(course);
+    // hash insertions
+    startindex = hash(stoi(courseno));
+    int newIndex = hash(stoi(courseno));
+    curr = hashTable[newIndex];
+    int i=0;
+    if (curr == NULL) {
+      hashTable[newIndex] = course;
     } else {
       collisions++;
       // use quadratic probing to resolve collision HERE
-      while(hashTable[newIndex]!=NULL){
-        // updates newindex using pass-by-reference
+      while (curr!=NULL) {
+        i++;
         searches++;
-      findnewindex(collisions, newIndex,index, this->hashTableSize);
+        newIndex = (startindex + (i * i)) % hashTableSize;
+        curr = hashTable[newIndex];
       }
-      //hashtable[newIndex] is now null, insert course
+      // hashtable[newIndex] is now null, insert course
       hashTable[newIndex] = course;
     }
   }
-    cout << "[CHAINING] Hash table populated" <<endl;
-  cout<<"-------------------------------------" << endl;
-  cout << "Collisions using open addressing: " <<collisions <<endl;
-  cout << "Search operations using open addressing: " <<searches <<endl;
+  cout << "[OPEN ADDRESSING] Hash table populated" << endl;
+  cout << "-------------------------------------" << endl;
+  cout << "Collisions using open addressing: " << collisions << endl;
+  cout << "Search operations using open addressing: " << searches << endl;
 }
-
+void displayiffound(int courseNum, int courseYear, string profId,Course *curr) {
+  if(curr==NULL){
+    return;
+  }
+  if (curr->courseNum == courseNum && curr->year == courseYear &&
+      curr->prof->profId == profId) {
+    cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
+  }
+}
 void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) {
-cout << "[OPEN ADDRESSING] Search for a course" << endl;
-cout << "-------------------------------------" << endl;
+  cout << "[OPEN ADDRESSING] Search for a course" << endl;
+  cout << "-------------------------------------" << endl;
   int index = hash(courseNumber);
-  int collisions=0;
+  int collisions = 0;
   // use quadratic probing to search here for the course
-    Course *curr = hashTable[index];
-    if(curr==NULL){
-        cout << "Course not found in Open Addressing." << endl;
-        return;
-    }
-    else if(curr->courseNum == courseNumber && curr->year == courseYear && curr->prof->profId == profId){
-        cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << " " << curr->prof->profId<< endl;
-      }
-      // not the exact courde, use quadratic probing to move to next possible location and check, increment counter
-    else{
-    // implement circular array mechanism to ensure newINDEX does not fly out of bounds and hits every index
-    int newIndex ;
-      while(curr!=NULL){
+  Course *curr = hashTable[index];
+  displayiffound(courseNumber, courseYear, profId, curr);
+  // not the exact courde, use quadratic probing to move to next possible
+  // location and check, increment counter
+    // implement circular array mechanism to ensure newINDEX does not fly out of
+    // bounds and hits every index
+    int newIndex;
+    while (curr != NULL) {
       collisions++;
-      findnewindex(collisions, newIndex,index, this->hashTableSize);
+      newIndex = (index + collisions * collisions) % this->hashTableSize;
       curr = hashTable[newIndex];
       // all indices visited, course not found
-      if(curr==NULL)
-      return;
-      else if(curr->courseNum == courseNumber && curr->year == courseYear && curr->prof->profId == profId){
-        cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName <<endl;
-      }
-      }
-        cout << "Course not found in Open Addressing." << endl;
-        return;
-    } 
+      displayiffound(courseNumber, courseYear, profId, curr);
+    }
+    // curr is null, not found
+    cout << "Course not found in Open Addressing." << endl;
+    return;
 }
 
 void HashOpenAddressing::displayAllCourses() {
