@@ -13,3 +13,6 @@ The objective of this project is to write an application that reads a list of Un
 
 ## Disclaimer
 Students are not allowed to share this code or make it public at any time, even after the course has completed.
+
+## Additionals
+By my tests using both chaining and open addressing collision reoslution methods to bulk insert and search from files, it appears that chaining is  quicker, because of the ability to be assured that your search will start at an index and cover the size of a linked list in O(n) time. In the case of quadratic probing and insertion, this formula and search can span multiple runs of an entire hash table, before finding the desired element and hitting every index.
