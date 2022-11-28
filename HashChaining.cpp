@@ -21,17 +21,17 @@ for(int i=0;i<hashTableSize;i++)
 HashChaining::~HashChaining()
 {
  Course *curr=NULL;
- Course *course=NULL;
+ Course *next=NULL;
  for (int i = 0; i < hashTableSize; i++) {
         curr = hashTable[i];            
         while (curr != NULL) {
-            course=curr;
-            delete course; 
-            course=nullptr;    
-            curr = curr->next;     
+            // issue here 
+            next=curr->next;
+            delete curr; 
+            curr = next;     
         }
     }
-    delete[] hashTable;
+    delete [] hashTable;
     hashTable=nullptr;
 }
 
@@ -56,7 +56,6 @@ string firstname;
 string lastname;
 string fullname;
 int searches=0;
-Professor* prof;
 Course * course;
 fin.open(filename);
 // filename is wrong
@@ -79,9 +78,8 @@ getline(parse,lastname,'\n');
 fullname=firstname+" " +lastname;
 // add professor has problem
 profDb.addProfessor(profid, fullname);
-prof = profDb.searchProfessor(profid);
-course=new Course(stoi(year),department,stoi(courseno),coursename,prof);
-prof->coursesTaught.push_back(course );
+course=new Course(stoi(year),department,stoi(courseno),coursename,profDb.searchProfessor(profid));
+profDb.searchProfessor(profid)->coursesTaught.push_back(course );
 //hash insertions
 index=hash(stoi(courseno));
 if(!hashTable[index]){

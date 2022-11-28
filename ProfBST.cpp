@@ -19,7 +19,6 @@ void destroyNode(Professor *currNode) {
     destroyNode(currNode->right);
     delete currNode;
   }
-
 }
 
 ProfBST::~ProfBST() { destroyNode(root); }

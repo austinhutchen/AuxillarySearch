@@ -120,8 +120,6 @@ int main(int argc, char *argv[]) {
       // destructors called
       openaddtable->~HashOpenAddressing();
       lltable->~HashChaining();
-      lltable->profDb.~ProfBST();
-      openaddtable->profDb.~ProfBST();
       cout << "Goodbye!" << endl;
       return 0;
     }
