@@ -12,14 +12,14 @@
 using namespace std;
 
 ProfBST::ProfBST() { root = nullptr; }
-
+// problem here, says theres a double delete occuring somewhere
 void destroyNode(Professor *currNode) {
-  if (currNode != NULL) {
+  if (currNode) {
     destroyNode(currNode->left);
     destroyNode(currNode->right);
     delete currNode;
-    currNode = NULL;
   }
+
 }
 
 ProfBST::~ProfBST() { destroyNode(root); }

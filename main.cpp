@@ -21,6 +21,9 @@ void display() {
   cout << "5. Exit" << endl;
 }
 // g++ main.cpp ProfBst.cpp HashOpenAddressing.cpp HashChaining.cpp
+// memory leaks:
+//g++ --std=c++11 -Wall -Werror -pedantic -g -fsanitize=address -fsanitize=undefined main.cpp ProfBst.cpp HashOpenAddressing.cpp HashChaining.cpp
+
 // ./a.out cscicoursesB.csv 700
 // DEBUG:
 // lldb ./a.out cscicoursesB.csv 700

@@ -24,9 +24,10 @@ HashOpenAddressing::~HashOpenAddressing() {
   for (int i = 0; i < hashTableSize; i++) {
     curr = hashTable[i];
     delete curr;
+    curr=nullptr;
   }
-  curr=nullptr;
   delete[] hashTable;
+  hashTable=nullptr;
 }
 
 int HashOpenAddressing::hash(int courseNumber) {
@@ -79,7 +80,7 @@ void HashOpenAddressing::bulkInsert(string filename) {
     startindex = hash(stoi(courseno));
     int newIndex = hash(stoi(courseno));
     curr = hashTable[newIndex];
-    int i=0;
+    unsigned int i=0;
     if (curr == NULL) {
       hashTable[newIndex] = course;
     } else {
@@ -101,19 +102,19 @@ void HashOpenAddressing::bulkInsert(string filename) {
   cout << "Search operations using open addressing: " << searches << endl;
 }
 bool check(int courseNum, int courseYear, string profId,Course *curr) {
-  bool f=false;
   if (curr->courseNum == courseNum && curr->year == courseYear &&curr->prof->profId == profId) {
-  f=true;
-    cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
+  return true;
     }
-    return f;
+    return false;
 }
+
 void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) {
   int index = hash(courseNumber);
   int collisions = 0;
   // use quadratic probing to search here for the course
   Course *curr = hashTable[index];
   if(check(courseNumber, courseYear, profId, curr)==true){
+    cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
     return;
   };
   // not the exact courde, use quadratic probing to move to next possible
@@ -127,6 +128,8 @@ void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) 
       curr = hashTable[newIndex];
       // all indices visited, course not found
       if(check(courseNumber, courseYear, profId, curr)==true){
+        cout << "Search operations using open addressing: " <<collisions <<endl;
+        cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
     return;
     }
     }

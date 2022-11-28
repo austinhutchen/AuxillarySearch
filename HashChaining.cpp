@@ -26,11 +26,13 @@ HashChaining::~HashChaining()
         curr = hashTable[i];            
         while (curr != NULL) {
             course=curr;
-            delete course;     
+            delete course; 
+            course=nullptr;    
             curr = curr->next;     
         }
     }
     delete[] hashTable;
+    hashTable=nullptr;
 }
 
 int HashChaining::hash(int courseNumber)
@@ -99,6 +101,7 @@ course->previous=prev;
 prev->next=course;
 }
 }
+ fin.close();
   cout << "[CHAINING] Hash table populated" <<endl;
   cout<<"-------------------------------------" << endl;
   cout << "Collisions using chaining: " <<collisions <<endl;
