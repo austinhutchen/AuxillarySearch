@@ -89,17 +89,15 @@ hashTable[index]= course;
 else{
 collisions++;
 Course *curr = hashTable[index];
-Course *prev;
-while(curr!=NULL){
+while(curr->next!=NULL){
     searches++;
-    prev=curr;
     curr=curr->next;
 }
-course->previous=prev;
-prev->next=course;
+curr->next=course;
+course->previous=curr;
 }
 }
- fin.close();
+  fin.close();
   cout << "[CHAINING] Hash table populated" <<endl;
   cout<<"-------------------------------------" << endl;
   cout << "Collisions using chaining: " <<collisions <<endl;

@@ -48,6 +48,7 @@ void HashOpenAddressing::bulkInsert(string filename) {
   string firstname;
   string lastname;
   string fullname;
+  int newIndex;
   int searches = 0;
   Course *curr;
   Professor *prof;
@@ -78,7 +79,6 @@ void HashOpenAddressing::bulkInsert(string filename) {
     prof->coursesTaught.push_back(course);
     // hash insertions
     startindex = hash(stoi(courseno));
-    int newIndex;
     curr = hashTable[startindex];
     int i=0;
     if (curr == NULL) {
@@ -86,17 +86,16 @@ void HashOpenAddressing::bulkInsert(string filename) {
     } else {
       collisions++;
       // use quadratic probing to resolve collision HERE
-      while (i<this->hashTableSize) {
+      while (hash(i)!=startindex) {
         i++;
         searches++;
         // hash and check current index
         newIndex = (startindex + (i * i)) % hashTableSize;
         if(hashTable[newIndex]==NULL){
+          hashTable[newIndex] = course;
           break;
         }
       }
-      // hashtable[newIndex] is now null, insert course
-      hashTable[newIndex] = course;
     }
   }
   cout << "[OPEN ADDRESSING] Hash table populated" << endl;
@@ -104,6 +103,8 @@ void HashOpenAddressing::bulkInsert(string filename) {
   cout << "Collisions using open addressing: " << collisions << endl;
   cout << "Search operations using open addressing: " << searches << endl;
 }
+
+
 bool check(int courseNum, int courseYear, string profId,Course *curr) {
   if (curr->courseNum == courseNum && curr->year == courseYear &&curr->prof->profId == profId) {
   return true;
@@ -136,14 +137,13 @@ void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) 
       if(curr==NULL){
     cout << "Course not found in Open Addressing." << endl;
     return;
-   }
+    }
       if(check(courseNumber, courseYear, profId, curr)==true){
         cout << "Search operations using open addressing: " <<i <<endl;
         cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
     return;
     }
     }
-
 }
 
 void HashOpenAddressing::displayAllCourses() {
