@@ -47,7 +47,7 @@ ifstream fin;
 string line;
 int index;
 string courseno;
-int collisions=0;
+unsigned int collisions=0;
 string coursename;
 string year;
 string department;
@@ -55,7 +55,7 @@ string profid;
 string firstname;
 string lastname;
 string fullname;
-int searches=0;
+unsigned int searches=0;
 Course * course;
 fin.open(filename);
 // filename is wrong
@@ -107,13 +107,6 @@ course->previous=curr;
 
 void HashChaining::search(int courseYear, int courseNumber, string profId)
 {
-    /*[OPEN ADDRESSING] Search for a course -------------------------------------
-Search operations using open addressing: 2
-2021 COMP SCI I: PROGRAMMING 1300 Rene Fauning
-[CHAINING] Search for a course -------------------------------------
-Search operations using chaining: 1
-2021 COMP SCI I: PROGRAMMING 1300 Rene Fauning
-*/
   // Compute the index by using the hash function
   int index = hash(courseNumber);
   Course *head = hashTable[index];
