@@ -130,7 +130,7 @@ void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) 
     // implement circular array mechanism to ensure newINDEX does not fly out of
     // bounds and hits every index
     int newIndex;
-    while (i<this->hashTableSize) {
+    while (hash(i)!=index) {
       i++;
       newIndex = (index + (i * i)) % hashTableSize;
       curr=hashTable[newIndex];

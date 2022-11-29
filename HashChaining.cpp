@@ -47,7 +47,7 @@ ifstream fin;
 string line;
 int index;
 string courseno;
-unsigned int collisions=0;
+int collisions=0;
 string coursename;
 string year;
 string department;
@@ -55,7 +55,7 @@ string profid;
 string firstname;
 string lastname;
 string fullname;
-unsigned int searches=0;
+int searches=0;
 Course * course;
 fin.open(filename);
 // filename is wrong
