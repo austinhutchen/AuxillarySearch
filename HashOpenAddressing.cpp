@@ -8,6 +8,7 @@
 #include "HashChaining.h"
 #include "ProfBST.h"
 #include "util.h"
+#include <__nullptr>
 #include <cstddef>
 
 using namespace std;
@@ -77,7 +78,7 @@ void HashOpenAddressing::bulkInsert(string filename) {
     prof->coursesTaught.push_back(course);
     // hash insertions
     startindex=hash(course->courseNum);
-        int i=0;
+    int i=0;
     if (hashTable[startindex] == NULL) {
     hashTable[startindex]=course;
     } else {
@@ -122,12 +123,10 @@ void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) 
   // not the exact courde, use quadratic probing to move to next possible
   // location and check, increment counter
     // implement circular array mechanism to ensure newINDEX does not fly out of
-    // bounds and hits every index
-    int newIndex;
-    while (hash(i)!=index) {
+    while (hashTable[index]!=nullptr) {
       i++;
-      newIndex = (index + (i * i)) % hashTableSize;
-      curr=hashTable[newIndex];
+      index = (index + (i * i)) % hashTableSize;
+      curr=hashTable[index];
       if(curr==NULL){
     cout << "Course not found in Open Addressing." << endl;
     return;
