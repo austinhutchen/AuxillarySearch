@@ -88,6 +88,7 @@ hashTable[index]= course;
 }
 else{
 collisions++;
+searches++;
 Course *curr = hashTable[index];
 while(curr->next!=NULL){
     searches++;
