@@ -48,9 +48,7 @@ void HashOpenAddressing::bulkInsert(string filename) {
   string firstname;
   string lastname;
   string fullname;
-  int newIndex;
   int searches = 0;
-  Course *curr;
   Professor *prof;
   Course *course;
   fin.open(filename);
@@ -78,25 +76,21 @@ void HashOpenAddressing::bulkInsert(string filename) {
     course =new Course(stoi(year), department, stoi(courseno), coursename, prof);
     prof->coursesTaught.push_back(course);
     // hash insertions
-    startindex = hash(stoi(courseno));
-    curr = hashTable[startindex];
-    int i=0;
-    if (curr == NULL) {
-      hashTable[startindex] = course;
+    startindex=hash(course->courseNum);
+        int i=0;
+    if (hashTable[startindex] == NULL) {
+    hashTable[startindex]=course;
     } else {
       collisions++;
       searches++;
       // use quadratic probing to resolve collision HERE
-      while (i<hashTableSize) {
-        i++;
-        searches++;
+      while (hashTable[startindex]!=nullptr) {
         // hash and check current index
-        newIndex = (startindex + (i * i)) % hashTableSize;
-        if(hashTable[newIndex]==NULL){
-          hashTable[newIndex] = course;
-          break;
-        }
+        i++;
+        startindex = (startindex + (i * i)) % hashTableSize;
       }
+      hashTable[startindex] = course;
+      searches+=i;
     }
   }
   cout << "[OPEN ADDRESSING] Hash table populated" << endl;
