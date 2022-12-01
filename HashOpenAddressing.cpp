@@ -87,7 +87,7 @@ void HashOpenAddressing::bulkInsert(string filename) {
       collisions++;
       searches++;
       // use quadratic probing to resolve collision HERE
-      while (hash(i)!=startindex) {
+      while (i<hashTableSize) {
         i++;
         searches++;
         // hash and check current index
