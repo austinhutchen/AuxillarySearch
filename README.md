@@ -15,4 +15,8 @@ The objective of this project is to write an application that reads a list of Un
 Students are not allowed to share this code or make it public at any time, even after the course has completed.
 
 ## Additionals
-By my tests using both chaining and open addressing collision reoslution methods to bulk insert and search from files, it appears that chaining is  quicker, because of the ability to be assured that your search will start at an index and cover the size of a linked list in O(n) time. In the case of quadratic probing and insertion, this formula and search can span multiple runs of an entire hash table, before finding the desired element and hitting every index.
+QUESTION 1: By my tests using both chaining and open addressing collision reoslution methods to bulk insert and search from files, it appears that chaining is quicker, because of the ability to be assured that your search will start at an index and cover the size of a linked list in O(n) time. In the case of quadratic probing and insertion, this formula and search can span multiple runs of an entire hash table, before finding the desired element and hitting every index.
+
+QUESTION 2: Using the BST for both hashing mechanisms wasn't a bad decision, but alternatively, I could use a min/max heap, sorted by the number of courses a given professor teaches. This would work well in theory because professors with more courses taught are more likely to be searched. 
+
+QUESTION 3: I believe that I could improve this application by implementing an array doubling algorithm to double the hash table if the user inputs an insufficient size, until all of the data is inputted into the table. This would ensure proper data storage of larger files, where the number of lines in the file could be unknown. 
