@@ -118,8 +118,6 @@ int main(int argc, char *argv[]) {
 
     case 5: {
       // destructors called
-      openaddtable->~HashOpenAddressing();
-      lltable->~HashChaining();
       cout << "Goodbye!" << endl;
       return 0;
     }
