@@ -3,7 +3,10 @@
 //
 // Identification: HashOpenAddressing.cpp
 //-----------------------------------------------------------------------------
-
+/*
+Hash OA class to insert into the hash chaining table using quadratic probing collision resolution, if spots are filled. 
+Includes insert, search,constructor, destructor, and displayinfo methods.
+*/
 #include "HashOpenAddressing.h"
 #include "HashChaining.h"
 #include "ProfBST.h"
@@ -12,14 +15,22 @@
 #include <cstddef>
 
 using namespace std;
-
+/*
+Constructs the hash table safely
+@param: hash table size
+@return: Constructed hash table
+*/
 HashOpenAddressing::HashOpenAddressing(int size) {
   this->hashTableSize = size;
   hashTable = new Course *[hashTableSize];
   for (int i = 0; i < hashTableSize; i++)
     hashTable[i] = nullptr;
 }
-
+/*
+Destroys the hash table and safely frees all pointers
+@param:n/a
+@retuns: n/a
+*/
 HashOpenAddressing::~HashOpenAddressing() {
   Course *curr = NULL;
   for (int i = 0; i < hashTableSize; i++) {
@@ -30,11 +41,19 @@ HashOpenAddressing::~HashOpenAddressing() {
   delete[] hashTable;
   hashTable=nullptr;
 }
-
+/*
+Simple hash formula to hash a coursenumber
+@param: coursenumber
+@retuns: hash value
+*/
 int HashOpenAddressing::hash(int courseNumber) {
   return courseNumber % this->hashTableSize;
 }
-
+/*
+Reads from the given file with filename and inserts all needed data into hashtable using OA collision
+@param: filename
+@retuns: N/A
+*/
 void HashOpenAddressing::bulkInsert(string filename) {
   ProfBST root;
   ifstream fin;
@@ -99,14 +118,22 @@ void HashOpenAddressing::bulkInsert(string filename) {
   cout << "Search operations using open addressing: " << searches << endl;
 }
 
-
+/*
+Simple check that returns true if passed course pointer fulfills the search conditions
+@param: coursenum, courseyear, profid, courseptr
+@retuns: true/false
+*/
 bool check(int courseNum, int courseYear, string profId,Course *curr) {
   if (curr->courseNum == courseNum && curr->year == courseYear &&curr->prof->profId == profId) {
   return true;
     }
   return false;
 }
-
+/*
+Searches for a course pointer with given parameters, and outputs info if found
+@param: courseyear, coursenumber, profid
+@retuns: n/a
+*/
 void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) {
   int index = hash(courseNumber);
   int i = 0;
@@ -120,7 +147,6 @@ void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) 
     cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
     return;
   };
-  // not the exact courde, use quadratic probing to move to next possible
   // location and check, increment counter
     // implement circular array mechanism to ensure newINDEX does not fly out of
     while (hashTable[index]!=nullptr) {
@@ -138,7 +164,11 @@ void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) 
     }
     }
 }
-
+/*
+Displays all indices of the hash table
+@param:n/a
+@retuns: n/a, only calls displaycourseinfo(), see below description
+*/
 void HashOpenAddressing::displayAllCourses() {
   int counter =1;
   for (int i = 0; i < this->hashTableSize; i++) {
@@ -149,7 +179,11 @@ void HashOpenAddressing::displayAllCourses() {
     }
   }
 }
-
+/*
+Displys course info associated with course pointer
+@param: Course ptr
+@retuns: n/a, only outputs course info using cout
+*/
 void HashOpenAddressing::displayCourseInfo(Course *c) {
   cout << c->year << " " << c->courseName << " " << c->courseNum << " "<< c->prof->profName << endl;
 }

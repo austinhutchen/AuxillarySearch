@@ -3,13 +3,20 @@
 //
 // Identification: HashChaining.cpp
 //-----------------------------------------------------------------------------
-
+/*
+Hash chaining class to insert into the hash chaining table using LL chaining collision resolution, if spots are filled. 
+Includes insert, search,constructor, destructor, and displayinfo methods.
+*/
 #include "HashChaining.h"
 #include "ProfBST.h"
 #include "util.h"
 
 using namespace std;
-
+/*
+Constructs the hash table safely
+@param: hash table size
+@return: Constructed hash table
+*/
 HashChaining::HashChaining(int size)
 {
 this->hashTableSize=size;
@@ -17,7 +24,11 @@ hashTable = new Course *[hashTableSize];
 for(int i=0;i<hashTableSize;i++)
     hashTable[i]=nullptr;
 }
-
+/*
+Destroys the chaining hash table and safely frees all pointers
+@param:n/a
+@retuns: n/a
+*/
 HashChaining::~HashChaining()
 {
  Course *curr=NULL;
@@ -34,13 +45,21 @@ HashChaining::~HashChaining()
     delete [] hashTable;
     hashTable=nullptr;
 }
-
+/*
+Simple hash formula to hash a coursenumber
+@param: coursenumber
+@retuns: hash value
+*/
 int HashChaining::hash(int courseNumber)
 {
 // hash functiong goes here to return key from courseNumber
 return courseNumber % this->hashTableSize;
 }
-
+/*
+Reads from the given file with filename and inserts all needed data into hashtable using chaining collision
+@param: filename
+@retuns: N/A
+*/
 void HashChaining::bulkInsert(string filename)
 {
 ifstream fin;
@@ -105,7 +124,11 @@ course->previous=curr;
   cout << "Search operations using chaining: " <<searches <<endl;
 } 
 
-
+/*
+Searches for a course pointer with given parameters, and outputs info if found
+@param: courseyear, coursenumber, profid
+@retuns: n/a
+*/
 void HashChaining::search(int courseYear, int courseNumber, string profId)
 {
   // Compute the index by using the hash function
@@ -124,7 +147,11 @@ void HashChaining::search(int courseYear, int courseNumber, string profId)
   }
   cout << "Course not found in Chaining table." <<endl;
 }
-
+/*
+Displays all info of pointers at all indices of the chaining hash table
+@param:n/a
+@retuns: n/a, only calls displaycourseinfo(), see below description
+*/
 void HashChaining::displayAllCourses()
 { 
 int counter=1;
@@ -138,7 +165,11 @@ for(int i=0;i<hashTableSize;i++){
     }
 }
 }
-
+/*
+Displys course info associated with course pointer
+@param: Course ptr
+@retuns: n/a, only outputs course info using cout
+*/
 void HashChaining::displayCourseInfo(Course* c)
 {
 cout << c->year << " "<< c->courseName <<" "<< c->courseNum <<" "<< c->prof->profName<<endl;
