@@ -119,11 +119,17 @@ int main(int argc, char *argv[]) {
            << endl;
       cin >> choice;
       // if user uses quadratic open addressing
-      if (choice == "O" || choice == "o")
+      if (choice == "O" || choice == "o") {
+        cout << "[OPEN ADDRESSING] displayAllCourses()" << endl;
+        cout << "----------------------------------------" << endl;
         openaddtable->displayAllCourses();
+      }
       // if user uses ll chaining
-      else if (choice == "C" || choice == "c")
+      else if (choice == "C" || choice == "c") {
+        cout << "[CHAINING] displayAllCourses()" << endl;
+        cout << "----------------------------------------" << endl;
         lltable->displayAllCourses();
+      }
       break;
     }
       // exit and call destructors, free all memory
