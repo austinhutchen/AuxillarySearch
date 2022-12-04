@@ -178,12 +178,9 @@ Displays all indices of the hash table
 @retuns: n/a, only calls displaycourseinfo(), see below description
 */
 void HashOpenAddressing::displayAllCourses() {
-  int counter = 1;
   for (int i = 0; i < this->hashTableSize; i++) {
     if (hashTable[i] != NULL) {
-      cout << counter << " ";
       displayCourseInfo(hashTable[i]);
-      counter++;
     }
   }
 }

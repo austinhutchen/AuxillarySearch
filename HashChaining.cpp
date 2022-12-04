@@ -152,12 +152,10 @@ Displays all info of pointers at all indices of the chaining hash table
 @retuns: n/a, only calls displaycourseinfo(), see below description
 */
 void HashChaining::displayAllCourses() {
-  int counter = 1;
   Course *curr;
   for (int i = 0; i < hashTableSize; i++) {
     curr = hashTable[i];
     while (curr != NULL) {
-      cout << counter++ << " ";
       displayCourseInfo(curr);
       curr = curr->next;
     }
