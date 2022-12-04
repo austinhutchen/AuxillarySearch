@@ -42,10 +42,9 @@ int main(int argc, char *argv[]) {
   string year;
   string courseno;
   string profID;
-  // initialization of hash tables and BST
+  // initialization of hash tables 
   HashOpenAddressing *openaddtable = new HashOpenAddressing(hsize);
   HashChaining *lltable = new HashChaining(hsize);
-
   // begin loop
   while (true) {
     display();
@@ -55,6 +54,7 @@ int main(int argc, char *argv[]) {
       break;
     }
     switch (input) {
+      // if uses chooses to bulk insert into hash table
     case 1: {
       cout << "Which hash table would you like to populate? (O=Open Addressing, C=Chaining)?"<< endl;
       cin >> choice;
@@ -67,12 +67,13 @@ int main(int argc, char *argv[]) {
         lltable->bulkInsert(fname);
       break;
     }
-
+// if user chooses to search for a course
     case 2: {
       cout << "Enter a course year(e.g. 2021):" << endl;
       cin >> year;
       cout << "Enter a course number(e.g. 2270):" << endl;
       cin >> courseno;
+      // error catching to avoid conversion errors
       try {
         stoi(courseno);
         stoi(year);
@@ -82,6 +83,7 @@ int main(int argc, char *argv[]) {
       }
       cout << "Enter a Professor's ID (e.g. llytellf):" << endl;
       cin >> profID;
+      // call both methods to search within both tables!
       cout << "[OPEN ADDRESSING] Search for a course" <<endl;
       cout << "----------------------------------------" <<endl;
       openaddtable->search(stoi(year), stoi(courseno), profID);
@@ -90,7 +92,7 @@ int main(int argc, char *argv[]) {
       lltable->search(stoi(year), stoi(courseno), profID);
       break;
     }
-
+// If user would like to search for a professor within BST
     case 3: {
       cout << "Enter a Professor's ID (e.g. nscollan0):" << endl;
       cin >> profID;
@@ -103,7 +105,7 @@ int main(int argc, char *argv[]) {
       lltable->profDb.publicSearchProfessor(profID);
       break;
     }
-
+// if user would like to display all courses within either hash table with either collision resolution scheme
     case 4: {
       cout << "Which hash table would you like to display? (O=Open Addressing, C=Chaining)?"<< endl;
       cin >> choice;
@@ -115,12 +117,13 @@ int main(int argc, char *argv[]) {
         lltable->displayAllCourses();
       break;
     }
-
+// exit and call destructors, free all memory
     case 5: {
-      // destructors called
+      // destructors called automatically
       cout << "Goodbye!" << endl;
       return 0;
     }
+// avoids invalid user input, sends back to beginning of loop
     default:
       cout << "invalid choice" << endl;
     }
