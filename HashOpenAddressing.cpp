@@ -4,8 +4,9 @@
 // Identification: HashOpenAddressing.cpp
 //-----------------------------------------------------------------------------
 /*
-Hash OA class to insert into the hash chaining table using quadratic probing collision resolution, if spots are filled. 
-Includes insert, search,constructor, destructor, and displayinfo methods.
+Hash OA class to insert into the hash chaining table using quadratic probing
+collision resolution, if spots are filled. Includes insert, search,constructor,
+destructor, and displayinfo methods.
 */
 #include "HashOpenAddressing.h"
 #include "HashChaining.h"
@@ -36,10 +37,10 @@ HashOpenAddressing::~HashOpenAddressing() {
   for (int i = 0; i < hashTableSize; i++) {
     curr = hashTable[i];
     delete curr;
-    curr=nullptr;
+    curr = nullptr;
   }
   delete[] hashTable;
-  hashTable=nullptr;
+  hashTable = nullptr;
 }
 /*
 Simple hash formula to hash a coursenumber
@@ -50,7 +51,8 @@ int HashOpenAddressing::hash(int courseNumber) {
   return courseNumber % this->hashTableSize;
 }
 /*
-Reads from the given file with filename and inserts all needed data into hashtable using OA collision
+Reads from the given file with filename and inserts all needed data into
+hashtable using OA collision
 @param: filename
 @retuns: N/A
 */
@@ -93,23 +95,24 @@ void HashOpenAddressing::bulkInsert(string filename) {
     // add professor
     profDb.addProfessor(profid, fullname);
     prof = profDb.searchProfessor(profid);
-    course =new Course(stoi(year), department, stoi(courseno), coursename, prof);
+    course =
+        new Course(stoi(year), department, stoi(courseno), coursename, prof);
     prof->coursesTaught.push_back(course);
     // hash insertions
-    startindex=hash(course->courseNum);
-    int i=0;
+    startindex = hash(course->courseNum);
+    int i = 0;
     if (hashTable[startindex] == NULL) {
-    hashTable[startindex]=course;
+      hashTable[startindex] = course;
     } else {
       collisions++;
       // use quadratic probing to resolve collision HERE
-      while (hashTable[startindex]!=nullptr) {
+      while (hashTable[startindex] != nullptr) {
         // hash and check current index
         i++;
         startindex = (startindex + (i * i)) % hashTableSize;
       }
       hashTable[startindex] = course;
-      searches+=i;
+      searches += i;
     }
   }
   cout << "[OPEN ADDRESSING] Hash table populated" << endl;
@@ -119,14 +122,16 @@ void HashOpenAddressing::bulkInsert(string filename) {
 }
 
 /*
-Simple check that returns true if passed course pointer fulfills the search conditions
+Simple check that returns true if passed course pointer fulfills the search
+conditions
 @param: coursenum, courseyear, profid, courseptr
 @retuns: true/false
 */
-bool check(int courseNum, int courseYear, string profId,Course *curr) {
-  if (curr->courseNum == courseNum && curr->year == courseYear &&curr->prof->profId == profId) {
-  return true;
-    }
+bool check(int courseNum, int courseYear, string profId, Course *curr) {
+  if (curr->courseNum == courseNum && curr->year == courseYear &&
+      curr->prof->profId == profId) {
+    return true;
+  }
   return false;
 }
 /*
@@ -134,35 +139,38 @@ Searches for a course pointer with given parameters, and outputs info if found
 @param: courseyear, coursenumber, profid
 @retuns: n/a
 */
-void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) {
+void HashOpenAddressing::search(int courseYear, int courseNumber,
+                                string profId) {
   int index = hash(courseNumber);
   int i = 0;
   // use quadratic probing to search here for the course
   Course *curr = hashTable[index];
-  if(curr==NULL){
+  if (curr == NULL) {
     cout << "Course not found in Open Addressing." << endl;
     return;
   }
-  if(check(courseNumber, courseYear, profId, curr)==true){
-    cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
+  if (check(courseNumber, courseYear, profId, curr) == true) {
+    cout << curr->courseNum << " " << curr->courseName << " "
+         << curr->prof->profName << endl;
     return;
   };
   // location and check, increment counter
-    // implement circular array mechanism to ensure newINDEX does not fly out of
-    while (hashTable[index]!=nullptr) {
-      i++;
-      index = (index + (i * i)) % hashTableSize;
-      curr=hashTable[index];
-      if(curr==NULL){
-    cout << "Course not found in Open Addressing." << endl;
-    return;
+  // implement circular array mechanism to ensure newINDEX does not fly out of
+  while (hashTable[index] != nullptr) {
+    i++;
+    index = (index + (i * i)) % hashTableSize;
+    curr = hashTable[index];
+    if (curr == NULL) {
+      cout << "Course not found in Open Addressing." << endl;
+      return;
     }
-      if(check(courseNumber, courseYear, profId, curr)==true){
-        cout << "Search operations using open addressing: " <<i <<endl;
-        cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
-    return;
+    if (check(courseNumber, courseYear, profId, curr) == true) {
+      cout << "Search operations using open addressing: " << i << endl;
+      cout << curr->courseNum << " " << curr->courseName << " "
+           << curr->prof->profName << endl;
+      return;
     }
-    }
+  }
 }
 /*
 Displays all indices of the hash table
@@ -170,12 +178,12 @@ Displays all indices of the hash table
 @retuns: n/a, only calls displaycourseinfo(), see below description
 */
 void HashOpenAddressing::displayAllCourses() {
-  int counter =1;
+  int counter = 1;
   for (int i = 0; i < this->hashTableSize; i++) {
-    if(hashTable[i]!=NULL){
-    cout << counter << " " ;
-    displayCourseInfo(hashTable[i]);
-    counter++;
+    if (hashTable[i] != NULL) {
+      cout << counter << " ";
+      displayCourseInfo(hashTable[i]);
+      counter++;
     }
   }
 }
@@ -185,5 +193,6 @@ Displys course info associated with course pointer
 @retuns: n/a, only outputs course info using cout
 */
 void HashOpenAddressing::displayCourseInfo(Course *c) {
-  cout << c->year << " " << c->courseName << " " << c->courseNum << " "<< c->prof->profName << endl;
+  cout << c->year << " " << c->courseName << " " << c->courseNum << " "
+       << c->prof->profName << endl;
 }
