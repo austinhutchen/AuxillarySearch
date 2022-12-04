@@ -16,7 +16,11 @@
 #include <vector>
 
 using namespace std;
-
+/*
+class for hashtable with OA collision resolution scheme, includes helper functions for all 
+essential read, write, and storage operations within the double-pointer hash table.
+Also included is a pointer to the BST, which stores professors.
+*/
 class HashOpenAddressing
 {
 	public:

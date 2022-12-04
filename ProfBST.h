@@ -16,7 +16,11 @@
 #include <string>
 
 using namespace std;
-
+/*
+Struct for professor pointers, included all given parameters for a professor.
+Each instance has coursestaught vector, left and right pointers for travesal within BST, and
+information about each professor, including profid and profanme.
+*/
 struct Professor
 {
 	string profId;
