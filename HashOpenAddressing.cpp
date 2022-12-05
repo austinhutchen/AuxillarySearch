@@ -138,8 +138,7 @@ Searches for a course pointer with given parameters, and outputs info if found
 @param: courseyear, coursenumber, profid
 @retuns: n/a
 */
-void HashOpenAddressing::search(int courseYear, int courseNumber,
-                                string profId) {
+void HashOpenAddressing::search(int courseYear, int courseNumber,string profId) {
   int index = hash(courseNumber);
   int i = 0;
   // use quadratic probing to search here for the course
@@ -173,8 +172,10 @@ Displays all indices of the hash table
 @retuns: n/a, only calls displaycourseinfo(), see below description
 */
 void HashOpenAddressing::displayAllCourses() {
-  for (int i = 0; i < this->hashTableSize; i++) {
-      displayCourseInfo(hashTable[i]);
+  for (int i = 0; i < hashTableSize; i++) {
+    if(hashTable[i]!=nullptr){
+          displayCourseInfo(hashTable[i]);
+    }
   }
 }
 /*
