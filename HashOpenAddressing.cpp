@@ -92,11 +92,10 @@ void HashOpenAddressing::bulkInsert(string filename) {
     getline(parse, lastname, '\n');
     // variables stored
     fullname = firstname + " " + lastname;
-    // add professor
+    // add professor 
     profDb.addProfessor(profid, fullname);
     prof = profDb.searchProfessor(profid);
-    course =
-        new Course(stoi(year), department, stoi(courseno), coursename, prof);
+    course =new Course(stoi(year), department, stoi(courseno), coursename, prof);
     prof->coursesTaught.push_back(course);
     // hash insertions
     startindex = hash(course->courseNum);
