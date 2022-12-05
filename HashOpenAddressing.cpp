@@ -145,32 +145,28 @@ void HashOpenAddressing::search(int courseYear, int courseNumber,
   int i = 0;
   // use quadratic probing to search here for the course
   Course *curr = hashTable[index];
-  if (curr == NULL) {
+  if (hashTable[index] == NULL) {
     cout << "Course not found in Open Addressing." << endl;
     return;
   }
   if (check(courseNumber, courseYear, profId, curr) == true) {
-    cout << curr->courseNum << " " << curr->courseName << " "
-         << curr->prof->profName << endl;
+    cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
     return;
   };
   // location and check, increment counter
   // implement circular array mechanism to ensure newINDEX does not fly out of
-  while (hashTable[index] != nullptr) {
+  while (hashTable[index] != nullptr&&i<hashTableSize) {
     i++;
     index = (index + (i * i)) % hashTableSize;
-    curr = hashTable[index];
-    if (curr == NULL) {
-      cout << "Course not found in Open Addressing." << endl;
-      return;
-    }
-    if (check(courseNumber, courseYear, profId, curr) == true) {
+    if (check(courseNumber, courseYear, profId, hashTable[index]) == true) {
+      curr=hashTable[index];
       cout << "Search operations using open addressing: " << i << endl;
-      cout << curr->courseNum << " " << curr->courseName << " "
-           << curr->prof->profName << endl;
+      cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
       return;
     }
   }
+  cout << "Course not found in Open Addressing." << endl;
+  return;
 }
 /*
 Displays all indices of the hash table
@@ -179,9 +175,7 @@ Displays all indices of the hash table
 */
 void HashOpenAddressing::displayAllCourses() {
   for (int i = 0; i < this->hashTableSize; i++) {
-    if (hashTable[i] != NULL) {
       displayCourseInfo(hashTable[i]);
-    }
   }
 }
 /*
