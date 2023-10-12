@@ -11,7 +11,6 @@ destructor, and displayinfo methods.
 #include "HashChaining.h"
 #include "ProfBST.h"
 #include "util.h"
-
 using namespace std;
 /*
 Constructs the hash table safely
@@ -95,8 +94,7 @@ void HashChaining::bulkInsert(string filename) {
     fullname = firstname + " " + lastname;
     // add professor has problem
     profDb.addProfessor(profid, fullname);
-    course = new Course(stoi(year), department, stoi(courseno), coursename,
-                        profDb.searchProfessor(profid));
+    course = new Course(stoi(year), department, stoi(courseno), coursename,profDb.searchProfessor(profid));
     profDb.searchProfessor(profid)->coursesTaught.push_back(course);
     // hash insertions
     index = hash(stoi(courseno));
@@ -137,8 +135,7 @@ void HashChaining::search(int courseYear, int courseNumber, string profId) {
     if (curr->courseNum == courseNumber && curr->prof->profId == profId &&
         curr->year == courseYear) {
       cout << "Search operations using chaining: " << count << endl;
-      cout << curr->courseNum << " " << curr->courseName << " "
-           << curr->prof->profName << endl;
+      cout << curr->courseNum << " " << curr->courseName << " "<< curr->prof->profName << endl;
       return;
     }
     curr = curr->next;
@@ -167,6 +164,5 @@ Displys course info associated with course pointer
 @retuns: n/a, only outputs course info using cout
 */
 void HashChaining::displayCourseInfo(Course *c) {
-  cout << c->year << " " << c->courseName << " " << c->courseNum << " "
-       << c->prof->profName << endl;
+  cout << c->year << " " << c->courseName << " " << c->courseNum << " "<< c->prof->profName << endl;
 }

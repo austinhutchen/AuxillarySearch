@@ -57,7 +57,6 @@ hashtable using OA collision
 @retuns: N/A
 */
 void HashOpenAddressing::bulkInsert(string filename) {
-  ProfBST root;
   ifstream fin;
   string line;
   int startindex;
